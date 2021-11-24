@@ -1,0 +1,113 @@
+import Actividad.*
+import Filosofo.*
+import discusion.*
+const francisco = new Filosofo(nombre = "Fran", anios = 19, diasVividos = 5, actividades =[tomarVino,futbol], honorificos = ["programador"], nivelDeIluminacion = 30)
+describe "Filosofos" {
+
+	test "Precentar a filosofo"{
+		assert.that(francisco.presentarse()=="Fran programador")
+	}
+	
+	test "Fran no esta en lo correcto" {
+	francisco.vivirUnDia()
+		assert.notThat(francisco.estaEnLoCorrecto())
+	}
+	
+	test "Fran pasa un dia" {
+	francisco.vivirUnDia()
+		assert.that(francisco.honorificos().contains("el borracho") && francisco.diasVividos() == 5)
+	}
+	
+	test "Precentar a jose un filosofo Contemporaneo"{
+	const jose = new Contemporaneo(nombre = "jose", anios = 19, diasVividos = 5, actividades =[tomarVino,futbol], honorificos = ["amante de la botánica"], nivelDeIluminacion = 30)
+		assert.that(jose.presentarse() == "hola")
+	}
+	
+	test "iluminacion de jose como amante de la botanica"{
+	const jose = new Contemporaneo(nombre = "jose", anios = 19, diasVividos = 5, actividades =[tomarVino,futbol], honorificos = ["amante de la botánica"], nivelDeIluminacion = 30)
+		jose.esAmanteDeLaBotanica()
+		assert.equals(150,jose.nivelDeIluminacion())
+	}
+}
+
+describe "Actividades" {
+// filosofos
+const francisco = new Filosofo(nombre = "fran", anios = 19, diasVividos = 5, actividades =[tomarVino], honorificos = ["programador"], nivelDeIluminacion = 30)
+const platon = new Filosofo(nombre = "Platon", anios = 500, diasVividos = 4, actividades =[], honorificos = [""], nivelDeIluminacion = 50)
+// actividades
+const juntarseConPlaton = new JuntarseEnElAgora(filosofoConElQueEeJunta = platon)
+const cataratas = new MeditarBajoUnaCascada(tamanio = 20)
+	test "francisco toma vino" {
+	tomarVino.realizarActividad(francisco)
+		assert.that(francisco.honorificos().contains("el borracho"))
+	}
+	
+	test "francisco admirar el Paisaje"{
+	admirarElPaisaje.realizarActividad(francisco)
+		assert.that(francisco == francisco)
+	}
+	
+	test "francisco se junta con platon"{
+	juntarseConPlaton.realizarActividad(francisco)
+		assert.equals(35,francisco.nivelDeIluminacion())
+	}
+	
+	test "francisco medita bajo las cataratas"{
+	 cataratas.realizarActividad(francisco)
+	 	assert.equals(230,francisco.nivelDeIluminacion())
+	}
+	
+	test "francisco juega futbol"{
+	futbol.realizarActividad(francisco)
+		assert.equals(4,francisco.diasVividos())
+	}
+	
+	test "francisco juega polo"{
+	polo.realizarActividad(francisco)
+		assert.equals(3,francisco.diasVividos())
+	}
+	
+	test "francisco juega waterpolo"{
+	waterpolo.realizarActividad(francisco)
+		assert.equals(1,francisco.diasVividos())
+	}
+	
+}
+
+describe "discusion" {
+	
+	test "VidaVida enriquecen la discucion ya que es de naturaleza estoricos"{
+	const vidaVida = new Argumento(descripcion="la vida es muy bella pero mas bella es programarla ?",naturalezas=[estoicos])	
+		assert.that(vidaVida.argumentoEnriquecedor())
+	}
+	
+	test "vidaVida enriquecen la discucion ya que es de naturaleza moralistas y tiene 10 palabras"{
+	const vidaVida = new Argumento(descripcion="la vida es muy bella pero mas bella es programarla ?",naturalezas=[moralistas])
+		assert.that(vidaVida.argumentoEnriquecedor())
+	}
+	
+	test "vidaVida enriquecen la discucion ya que es de naturaleza esceptica y tiermina con ?"{
+	const vidaVida = new Argumento(descripcion="la vida es muy bella pero mas bella es programarla ?",naturalezas=[esceptica])
+		assert.that(vidaVida.argumentoEnriquecedor())
+	}
+	
+	test "vidaVida enriquecen la discucion ya que cumple con todas sus naturalezas"{
+	const vidaVida = new Argumento(descripcion="la vida es muy bella pero mas bella es programarla ?",naturalezas=[estoicos,esceptica,moralistas])
+		assert.that(vidaVida.argumentoEnriquecedor())
+	}
+	
+	test "El argumento no es valido ya que una de sus naturalezas es falsa"{
+	const dosMasDosEsCinco = new Argumento(descripcion="asi me dijero",naturalezas=[estoicos,esceptica,moralistas])
+		assert.notThat(dosMasDosEsCinco.argumentoEnriquecedor())
+	}
+	
+	test "una discucion buena"{
+	const vidaVida = new Argumento(descripcion="la vida es muy bella pero mas bella es programarla ?",naturalezas=[estoicos])
+	const platon = new Filosofo(nombre = "Platon", anios = 500, diasVividos = 4, actividades =[], honorificos = [""], nivelDeIluminacion = 1000)
+	const partidoPlatonicoGerad = new Partido(filosofo = platon, argumentos =[vidaVida])
+	const partidoPlatonicoFlorecente =new Partido(filosofo = platon, argumentos =[vidaVida])
+	discusion.agregarPartido(partidoPlatonicoGerad)
+	discusion.agregarPartido(partidoPlatonicoFlorecente)
+		assert.that(discusion.discusionEsBuena())
+	}
+}
